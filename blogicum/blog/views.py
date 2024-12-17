@@ -23,10 +23,10 @@ def index(request):
     posts = Post.objects. \
         select_related('category', 'author', 'location'). \
         filter(
-        pub_date__lte=current_time,
-        is_published=True,
-        category__is_published=True
-    )
+            pub_date__lte=current_time,
+            is_published=True,
+            category__is_published=True
+        )
     for post in posts:
         post.comment_count = Comment.objects.filter(post=post).count()
     paginator = Paginator(posts, 10)
@@ -52,7 +52,6 @@ def post_detail(request, post_id):
         Q(is_published=True) | Q(author=current_user),
         Q(category__is_published=True) | Q(author=current_user),
         id=post_id,
-
     )
 
     comments = Comment.objects.filter(post=post)
@@ -76,10 +75,10 @@ def category_posts(request, category_slug):
     posts = Post.objects. \
         select_related('category', 'author', 'location'). \
         filter(
-        pub_date__lte=current_time,
-        is_published=True,
-        category=category
-    )
+            pub_date__lte=current_time,
+            is_published=True,
+            category=category
+        )
 
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
@@ -142,7 +141,6 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.author = self.request.user
-        print(instance)
         instance.save()
         return super().form_valid(instance)
 
