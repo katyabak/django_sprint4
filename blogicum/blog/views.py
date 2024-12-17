@@ -167,7 +167,7 @@ class PostDeleteView(LoginRequiredMixin, PostChangeMixin, DeleteView):
 
     def test_func(self):
         return self.request.user.is_superuser or \
-               (self.request.user.id == self.get_object().author.id)
+            (self.request.user.id == self.get_object().author.id)
 
 
 @login_required
